@@ -1,0 +1,28 @@
+{
+  "name": "music-comment-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "startDev": "nodemon index.js"
+  },
+  "author": "Huy Chu",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "helmet": "^4.2.0",
+    "hpp": "^0.2.3",
+    "http": "0.0.1-security",
+    "mysql": "^2.18.1",
+    "socket.io": "^3.0.4",
+    "util": "^0.12.3",
+    "xss-clean": "^0.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
+}
