@@ -32,7 +32,7 @@ io.on("connection", (socket) => {
   });
   socket.on("postComment", (data) => {
     const { comment, song } = data;
-    commentSongController(comment.access_token, comment.content, song, comment.created_at);
+    // commentSongController(comment.access_token, comment.content, song, comment.created_at);
     socket.broadcast.to(song).emit("postComment", data);
     // socket.to(song).emit("postComment", data);
     // socket.emit("postComment", data);
