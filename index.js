@@ -19,6 +19,7 @@ io.on('connection', (socket) => {
     socket.on('1', (msg) => {
         console.log('message: ' + msg);
     });
+    socket.broadcast.emit("broadcast", "hello friends!");
     socket.on('disconnect', () => {
         console.log('user disconnected');
     });
