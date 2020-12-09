@@ -1,52 +1,48 @@
-const app = require('express')();
-const server = require('http').createServer(app);
-const options = { /* ... */ };
-const io = require('socket.io')(server, options);
-const port = process.env.PORT || 5000;
+require("dotenv").config();
+const http = require("http");
+const express = require("express");
+const app = express();
+const cors = require("cors");
+const hpp = require("hpp");
 
-io.on('connection', socket => {
-    console.log(socket.id)
-    socket.on("private message", (anotherSocketId, msg) => {
-        socket.to(anotherSocketId).emit("private message", socket.id, msg);
-      });
+const port = process.env.PORT || 5000;
+const server = http.createServer(app);
+const options = {};
+const io = require("socket.io")(server, options);
+const commentSongController = require('./src/controller/comment');
+
+// Allow Cross-Origin requests
+app.use(cors());
+// Prevent parameter pollution
+app.use(hpp());
+
+io.on("connection", (socket) => {
+  console.log(`${socket.id} connected`);
+
+  socket.on("disconnect", () => {
+    console.log(`Disconnected: ${socket.id}`);
+  });
+
+  socket.on("test", (data) => {
+    console.log(data);
+  });
+
+  socket.on("join", (song) => {
+    socket.join(song);
+  });
+  socket.on("postComment", (data) => {
+    const { comment, song } = data;
+    commentSongController(comment.access_token, comment.content, song, comment.created_at);
+    socket.broadcast.to(song).emit("postComment", data);
+    // socket.to(song).emit("postComment", data);
+    // socket.emit("postComment", data);
+  });
 });
 
-app.get('/', (req, res) => {
-    res.send("Music Life Comment Server");
-})
+app.get("/", (req, res) => {
+  res.send("Music Life Comment Server");
+});
 
 server.listen(port, () => {
-    console.log(`Server is listening on port ${port}`);
+  console.log(`Server is listening on port: ${port}`);
 });
-
-// const express = require('express');
-// const cors = require('cors');
-// const hpp = require('hpp');
-// const dotenv = require('dotenv').config();
-// const bodyParser = require('body-parser');
-
-// const app = express();
-// const http = require('http').createServer(app);
-// const io = require('socket.io')(http);
-
-// const port = process.env.PORT || 5000;
-
-// app.get('/', (req, res) => {
-//     res.send("Music Life Comment Server");
-// });
-
-// io.on('connection', (socket) => {
-//     console.log('A user connected');
-//     socket.on('1', (msg) => {
-//         console.log('message: ' + msg);
-//     });
-//     socket.emit("broadcast", "hello friends!");
-//     socket.on('disconnect', () => {
-//         console.log('user disconnected');
-//     });
-// })
-
-// http.listen(port, () => {
-//     console.log(`Server is listening on port ${port}`);
-// });
-
