@@ -13,6 +13,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
+    "eiows": "^3.4.1",
     "express": "^4.17.1",
     "helmet": "^4.2.0",
     "hpp": "^0.2.3",
@@ -24,5 +25,9 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.6"
+  },
+  "optionalDependencies": {
+    "bufferutil": "^4.0.2",
+    "utf-8-validate": "^5.0.3"
   }
 }
